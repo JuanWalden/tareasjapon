@@ -1,0 +1,13 @@
+# EXCLUIR subcarpeta tareasjapon de WordPress
+RewriteCond %{REQUEST_URI} ^/tareasjapon(/.*)?$ [NC]
+RewriteRule ^(.*)$ - [L]
+RewriteCond %{REQUEST_URI} ^/tareasjapon/
+RewriteRule ^tareasjapon/(.*)$ /tareasjapon/$1 [L]
+
+# BEGIN WordPress
+RewriteEngine On
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+# END WordPress

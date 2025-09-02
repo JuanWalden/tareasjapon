@@ -1,0 +1,49 @@
+# Configuración para PWA - Rutas relativas
+DirectoryIndex index.html
+
+# Rewrite rules para SPA
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Permitir acceso directo a archivos existentes
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirigir todo lo demás a index.html (ruta relativa)
+RewriteRule ^(.*)$ index.html [L]
+</IfModule>
+
+# Headers para PWA
+<IfModule mod_headers.c>
+    # Service Worker
+    <FilesMatch "sw\.js$">
+        Header set Content-Type "application/javascript"
+        Header set Service-Worker-Allowed "/"
+    </FilesMatch>
+    
+    # Manifest
+    <FilesMatch "manifest\.json$">
+        Header set Content-Type "application/manifest+json"
+    </FilesMatch>
+    
+    # Cache headers para assets
+    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg)$">
+        Header set Cache-Control "public, max-age=31536000"
+    </FilesMatch>
+</IfModule>
+
+# MIME types para PWA
+<IfModule mod_mime.c>
+    AddType application/manifest+json .webmanifest .json
+    AddType application/javascript .js
+</IfModule>
+
+# Comprimir archivos para mejor rendimiento
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>

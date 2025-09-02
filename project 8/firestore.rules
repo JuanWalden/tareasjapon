@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read and write access to all documents for this travel app
+    // Since this is a collaborative travel planning app for a specific group,
+    // we allow open access. In production, you might want to add authentication.
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
