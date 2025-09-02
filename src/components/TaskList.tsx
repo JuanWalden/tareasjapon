@@ -60,83 +60,147 @@ const TaskList: React.FC<TaskListProps> = ({
 
   if (type === 'review') {
     const categorizedTasks = {
-      imprescindibles: filteredTasks.filter(task => task.description.includes('Verificar vigencia') || task.description.includes('Verificar requisitos') || task.description.includes('Contratar seguro') || task.description.includes('Confirmar vuelos') || task.description.includes('Confirmar hoteles')),
-      salud: filteredTasks.filter(task => task.description.includes('Verificar y aplicar vacunas') || task.description.includes('Llevar medicamentos') || task.description.includes('Preparar kit')),
-      dinero: filteredTasks.filter(task => task.description.includes('Notificar al banco') || task.description.includes('Cambiar dinero') || task.description.includes('Calcular gastos')),
-      equipaje: filteredTasks.filter(task => task.description.includes('Verificar restricciones') || task.description.includes('Revisar pronóstico') || task.description.includes('Llevar adaptadores')),
-      otros: filteredTasks.filter(task => 
-        !task.description.includes('Verificar vigencia') && 
-        !task.description.includes('Verificar requisitos') && 
-        !task.description.includes('Contratar seguro') && 
-        !task.description.includes('Confirmar vuelos') && 
-        !task.description.includes('Confirmar hoteles') &&
-        !task.description.includes('Verificar y aplicar vacunas') && 
-        !task.description.includes('Llevar medicamentos') && 
-        !task.description.includes('Preparar kit') &&
-        !task.description.includes('Notificar al banco') && 
-        !task.description.includes('Cambiar dinero') && 
-        !task.description.includes('Calcular gastos') &&
-        !task.description.includes('Verificar restricciones') && 
-        !task.description.includes('Revisar pronóstico') && 
-        !task.description.includes('Llevar adaptadores')
-      )
+      imprescindibles: filteredTasks.filter(task => 
+        task.description?.includes('Verificar vigencia') || 
+        task.description?.includes('Verificar requisitos') || 
+        task.description?.includes('Contratar seguro') || 
+        task.description?.includes('Confirmar vuelos') || 
+        task.description?.includes('Confirmar hoteles')
+      ),
+      salud: filteredTasks.filter(task => 
+        task.description?.includes('Verificar y aplicar vacunas') || 
+        task.description?.includes('Llevar medicamentos') || 
+        task.description?.includes('Preparar kit')
+      ),
+      dinero: filteredTasks.filter(task => 
+        task.description?.includes('Notificar al banco') || 
+        task.description?.includes('Cambiar dinero') || 
+        task.description?.includes('Calcular gastos')
+      ),
+      equipaje: filteredTasks.filter(task => 
+        task.description?.includes('Verificar restricciones') || 
+        task.description?.includes('Revisar pronóstico') || 
+        task.description?.includes('Llevar adaptadores')
+      ),
+      otros: filteredTasks.filter(task => {
+        const desc = task.description || '';
+        return !desc.includes('Verificar vigencia') && 
+               !desc.includes('Verificar requisitos') && 
+               !desc.includes('Contratar seguro') && 
+               !desc.includes('Confirmar vuelos') && 
+               !desc.includes('Confirmar hoteles') &&
+               !desc.includes('Verificar y aplicar vacunas') && 
+               !desc.includes('Llevar medicamentos') && 
+               !desc.includes('Preparar kit') &&
+               !desc.includes('Notificar al banco') && 
+               !desc.includes('Cambiar dinero') && 
+               !desc.includes('Calcular gastos') &&
+               !desc.includes('Verificar restricciones') && 
+               !desc.includes('Revisar pronóstico') && 
+               !desc.includes('Llevar adaptadores');
+      })
     };
 
     return (
-      <div className="space-y-6">
-        <AddTaskForm onAddTask={(title, description) => onAddTask(title, description, type)} />
-        
-        <CategorySection
-          title="🚨 Imprescindibles"
-          tasks={categorizedTasks.imprescindibles}
-          onToggleCompletion={onToggleCompletion}
-          onDelete={onDelete}
-        />
-        
-        <CategorySection
-          title="🏥 Salud"
-          tasks={categorizedTasks.salud}
-          onToggleCompletion={onToggleCompletion}
-          onDelete={onDelete}
-        />
-        
-        <CategorySection
-          title="💰 Dinero"
-          tasks={categorizedTasks.dinero}
-          onToggleCompletion={onToggleCompletion}
-          onDelete={onDelete}
-        />
-        
-        <CategorySection
-          title="🧳 Equipaje"
-          tasks={categorizedTasks.equipaje}
-          onToggleCompletion={onToggleCompletion}
-          onDelete={onDelete}
-        />
-        
-        {categorizedTasks.otros.length > 0 && (
-          <CategorySection
-            title="📝 Otros"
-            tasks={categorizedTasks.otros}
-            onToggleCompletion={onToggleCompletion}
-            onDelete={onDelete}
-          />
-        )}
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-white mb-2 tracking-wide">
+              CHECK LIST EQUIPAJE
+            </h1>
+            <p className="text-slate-300 text-lg">Revisión final antes del viaje</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <CategorySection
+              title="IMPRESCINDIBLES"
+              icon="🔥"
+              tasks={categorizedTasks.imprescindibles}
+              onToggleCompletion={onToggleCompletion}
+              onDelete={onDelete}
+              onAddTask={onAddTask}
+              accentColor="red"
+            />
+            
+            <CategorySection
+              title="SALUD"
+              icon="🏥"
+              tasks={categorizedTasks.salud}
+              onToggleCompletion={onToggleCompletion}
+              onDelete={onDelete}
+              onAddTask={onAddTask}
+              accentColor="green"
+            />
+            
+            <CategorySection
+              title="DINERO"
+              icon="💰"
+              tasks={categorizedTasks.dinero}
+              onToggleCompletion={onToggleCompletion}
+              onDelete={onDelete}
+              onAddTask={onAddTask}
+              accentColor="blue"
+            />
+            
+            <CategorySection
+              title="EQUIPAJE"
+              icon="🧳"
+              tasks={categorizedTasks.equipaje}
+              onToggleCompletion={onToggleCompletion}
+              onDelete={onDelete}
+              onAddTask={onAddTask}
+              accentColor="purple"
+            />
+            
+            {categorizedTasks.otros.length > 0 && (
+              <CategorySection
+                title="OTROS"
+                icon="📦"
+                tasks={categorizedTasks.otros}
+                onToggleCompletion={onToggleCompletion}
+                onDelete={onDelete}
+                onAddTask={onAddTask}
+                accentColor="purple"
+              />
+            )}
+          </div>
+
+          <div className="mt-8">
+            <AddTaskForm onAddTask={(title, description) => onAddTask(title, description, 'review')} />
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <AddTaskForm onAddTask={(title, description) => onAddTask(title, description, type)} />
-      {filteredTasks.map(task => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          onToggleCompletion={onToggleCompletion}
-          onDelete={onDelete}
-        />
-      ))}
+    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <AddTaskForm onAddTask={(title, description) => onAddTask(title, description, 'pending')} />
+      
+      {filteredTasks.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+            <span className="text-2xl">📝</span>
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            No hay tareas pendientes
+          </h3>
+          <p className="text-gray-500">
+            Crea la primera tarea para comenzar la organización del viaje
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {filteredTasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              task={task}
+              onToggleCompletion={onToggleCompletion}
+              onDelete={onDelete}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
